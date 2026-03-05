@@ -7,12 +7,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,700&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 20px; font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #fff5f8, #f8f0ff, #f0f7ff); min-height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .card { background: white; max-width: 500px; width: 100%; border-radius: 50px; padding: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.05); text-align: center; }
+    body { 
+        margin: 0; 
+        padding: 20px; 
+        font-family: 'Montserrat', sans-serif; 
+        /* updated background for zebra.jpg */
+        background: url('zebra.jpg') no-repeat center center fixed; 
+        background-size: cover; 
+        min-height: 100vh; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+    }
+
+    .card { 
+        background: rgba(229, 226, 226, 0.95); /* slightly transparent so it pops */
+        max-width: 500px; 
+        width: 100%; 
+        border-radius: 50px; 
+        padding: 40px; 
+        box-shadow: 0 30px 60px rgba(0,0,0,0.2); 
+        text-align: center; 
+    }
         h1 { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 2.8rem; margin-bottom: 10px; color: #1a1a1a; }
         .photo-row { display: flex; justify-content: center; gap: 8px; margin: 25px 0; }
         .photo-row img { width: 95px; height: 125px; object-fit: cover; border-radius: 15px; border: 3px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        
+        /* standard inputs */
         input { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #eee; font-family: 'Montserrat'; box-sizing: border-box; font-size: 0.9rem; }
+        
+        /* checkbox alignment fix */
+        .reminder-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; cursor: pointer; }
+        .reminder-container input[type="checkbox"] { width: 20px; height: 20px; margin: 0; cursor: pointer; }
+        .reminder-text { font-size: 0.75rem; color: #888; text-transform: lowercase; }
+
         .btn-main { background: #000; color: #fff; border: none; padding: 18px; width: 100%; border-radius: 50px; font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s; }
         .btn-main:hover { background: #333; transform: scale(1.02); }
         .btn-decline { background: none; color: #aaa; text-decoration: underline; font-size: 0.8rem; border: none; cursor: pointer; margin-top: 15px; }
@@ -25,7 +53,10 @@
 <div class="card">
     <div id="rsvp-view">
         <h1>You are invited!</h1>
-        <p style="font-size: 0.9rem; color: #666;">It’s officially the end of an era! I’d love to see you at my Senior Games as I take the field one last time. Come help me close out this chapter!</p>
+        <p style="font-size: 0.9rem; color: #252323;">It’s officially the end of an era! I’d love to see you at my Senior Games as I take the field one last time. Come help me close out this chapter!
+        Saturday, April 18th at 1PM and 3PM (DH)
+            <br>
+        </p>
         
         <div class="photo-row">
             <img src="freshman.JPG"> <img src="sophomore.JPG"> <img src="junior.png"> <img src="senior.JPG">
@@ -34,14 +65,15 @@
         <input type="text" id="name" placeholder="YOUR FULL NAME">
         <input type="text" id="phone" placeholder="PHONE NUMBER">
         
-        <label style="font-size: 0.75rem; color: #888; display: block; margin: 10px 0;">
-            <input type="checkbox" id="reminder"> TEXT ME A REMINDER 2 DAYS BEFORE! 📱
+        <label class="reminder-container">
+            <input type="checkbox" id="reminder"> 
+            <span class="reminder-text"> Text me a reminder 1 week before! </span>
         </label>
 
         <button class="btn-main" onclick="handleRSVP('Coming')">I'm Coming!</button>
         <button class="btn-decline" onclick="handleRSVP('Declined')">I can't make it</button>
         
-        <p onclick="adminLogin()" style="font-size: 0.6rem; color: #f0f0f0; margin-top: 30px; cursor: pointer;">Admin</p>
+        <p onclick="adminLogin()" style="font-size: 0.6rem; color: #ded7d7; margin-top: 30px; cursor: pointer;">Admin</p>
     </div>
 
     <div id="success-view">
@@ -62,7 +94,6 @@
 </div>
 
 <script>
-    // Project Config with your provided ID and Key
     const SUPABASE_URL = 'https://nswknsruyctbgmapoyhn.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_F_YW6HOVpmbxjZy2PBnLQg_apPEPBlI'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -95,7 +126,7 @@
     }
 
     function adminLogin() {
-        if (prompt("Admin Password:") === "CAU2026") {
+        if (prompt("Admin Password:") === "123456") {
             document.getElementById('rsvp-view').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             fetchGuests();
